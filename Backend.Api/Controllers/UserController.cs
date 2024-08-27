@@ -1,3 +1,5 @@
+using Backend.Api.Dto;
+using Backend.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Api.Controllers;
@@ -6,9 +8,21 @@ namespace Backend.Api.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    [HttpGet]
-    public ActionResult Hello()
+    [HttpPost]
+    public async Task<ActionResult> Create([FromServices] ICreateUserService service, [FromBody] ICreateUserDto request)
     {
-        return Ok("Hello /user!");
+        try
+        {
+            await service.Execute(request.Name, request.Email, request.Password);
+            return Ok(new { message = "User created successfully" });
+        }
+        catch (Exception ex) when (ex is ArgumentException || ex is InvalidOperationException)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception)
+        {
+            return BadRequest(new { message = "User creation failed" });
+        }
     }
 }

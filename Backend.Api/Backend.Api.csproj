@@ -12,4 +12,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Backend.Service\Backend.Service.csproj" />
+    <ProjectReference Include="..\Backend.Infra.Database\Backend.Infra.Database.csproj" />
+    <ProjectReference Include="..\Backend.Infra.Repository\Backend.Infra.Repository.csproj" />
+  </ItemGroup>
+
 </Project>
