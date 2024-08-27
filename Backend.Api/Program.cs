@@ -11,8 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<Context>(
-    options => options.UseInMemoryDatabase("Database")
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
+builder.Services.AddDbContext<Context>(options =>
+    options.UseInMemoryDatabase("Database")
 );
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
